@@ -28,7 +28,7 @@ void setup()
     while (!client.connected())
     {
         Serial.print("Conectando a MQTT...");
-        if (client.connect("ESP32_DHT22"))
+        if (client.connect("ESP32_DHT22", MQTT_USER, MQTT_PASSWORD))
         {
             Serial.println("Conectado!");
         }
@@ -46,7 +46,7 @@ void loop()
 {
     if (!client.connected())
     {
-        client.connect("ESP32_DHT22");
+        client.connect("ESP32_DHT22", MQTT_USER, MQTT_PASSWORD);
     }
 
     float temperatura = dht.readTemperature();
@@ -59,13 +59,11 @@ void loop()
 
         client.publish("casa/salon/temperatura", tempStr.c_str());
         client.publish("casa/salon/humedad", humStr.c_str());
-        // client.publish("casa/salon", (tempStr + "," + humStr).c_str());
         client.publish("casa/salon", ("{\"temperatura\":" + tempStr + ",\"humedad\":" + humStr + "}").c_str());
 
         Serial.println("Datos enviados a MQTT:");
         Serial.println("Temperatura: " + tempStr + "°C");
         Serial.println("Humedad: " + humStr + "%");
-
     }
     else
     {
