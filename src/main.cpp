@@ -59,10 +59,13 @@ void loop()
 
         client.publish("casa/salon/temperatura", tempStr.c_str());
         client.publish("casa/salon/humedad", humStr.c_str());
+        // client.publish("casa/salon", (tempStr + "," + humStr).c_str());
+        client.publish("casa/salon", ("{\"temperatura\":" + tempStr + ",\"humedad\":" + humStr + "}").c_str());
 
         Serial.println("Datos enviados a MQTT:");
-        Serial.println("Temperatura: " + tempStr);
-        Serial.println("Humedad: " + humStr);
+        Serial.println("Temperatura: " + tempStr + "°C");
+        Serial.println("Humedad: " + humStr + "%");
+
     }
     else
     {
